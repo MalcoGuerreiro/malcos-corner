@@ -1,0 +1,18 @@
+{
+  "name": "malco-corner",
+  "version": "1.0.0",
+  "description": "A Wii-inspired personal corner for Malco.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["personal-site", "express", "lastfm", "supabase"],
+  "author": "Malco",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
