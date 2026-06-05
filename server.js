@@ -123,8 +123,13 @@ app.post('/api/recommendations', async (req, res) => {
     recommendationCooldown.set(clientKey, Date.now());
     return res.json({ ok: true, message: 'recommendation sent :)' });
   } catch (error) {
-    return res.status(500).json({ ok: false, message: 'couldn’t send it :(\ntry again in a bit.' });
-  }
+  console.error('Supabase recommendation error:', error);
+
+  return res.status(500).json({
+    ok: false,
+    message: 'couldn’t send it :(\ntry again in a bit.'
+  });
+}
 });
 
 app.get('*', (_req, res) => {

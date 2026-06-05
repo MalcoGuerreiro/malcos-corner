@@ -2,21 +2,26 @@ window.MALCO_GAMES = [
   {
     title: 'Super Mario Galaxy',
     status: 'favorite',
-    cover: ''
+    cover: './assets/images/games/mario.png'
   },
   {
-    title: 'Persona 5 Royal',
-    status: 'style overload',
-    cover: ''
+    title: 'Sekiro: Shadows Die Twice',
+    status: 'planning to play',
+    cover: './assets/images/games/sekiro.jpg'
   },
   {
     title: 'Street Fighter 6',
     status: 'learning neutral',
-    cover: ''
+    cover: './assets/images/games/sf6.jpg'
   },
   {
-    title: 'Minecraft',
-    status: 'always comes back',
-    cover: ''
+    title: 'Overwatch',
+    status: 'rage quitting',
+    cover: './assets/images/games/overwatch.jpg'
+  },
+  {
+    title: 'Super Smash Bros Melee',
+    status: 'getting better at it',
+    cover: './assets/images/games/melee.jpg'
   }
 ];

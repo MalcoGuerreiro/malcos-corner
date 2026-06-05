@@ -1,26 +1,20 @@
 window.MALCO_THINGS = [
   {
-    title: 'wii menu energy',
-    category: 'aesthetics',
-    note: 'clean, nostalgic, round, and weirdly peaceful.',
-    image: ''
+    title: 'cars',
+    category: 'customs',
+    note: 'i dont know its just interesting (btw its a silvia s15)',
+    image: './assets/images/things/car.png'
   },
   {
-    title: 'fashion details',
-    category: 'fashion',
-    note: 'small pieces that make the whole fit feel intentional.',
-    image: ''
+    title: 'games',
+    category: 'gaming',
+    note: 'what i spend most of my time on',
+    image: './assets/images/things/games.png'
   },
   {
-    title: 'music that loops too much',
+    title: 'music in general to be honest',
     category: 'music',
-    note: 'the same song until it becomes a personality trait.',
-    image: ''
-  },
-  {
-    title: 'random interface sounds',
-    category: 'design',
-    note: 'tiny clicks that make buttons feel alive.',
-    image: ''
+    note: 'recommendations in the recommendation tab!',
+    image: './assets/images/things/music.png'
   }
 ];

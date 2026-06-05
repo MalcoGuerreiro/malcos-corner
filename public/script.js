@@ -69,8 +69,8 @@ function renderAbout() {
   return contentCard(
     'about',
     `<p>i’m Malco.</p>
-     <p>computer engineering student from brazil, professional overthinker, and someone currently trying to make code feel less like homework and more like something personal.</p>
-     <p>i like music, games, fashion, random ideas, and small details that make things feel alive.</p>
+     <p>computer engineering student (at CESUPA) from brazil, professional overthinker, and someone currently trying to make code feel less like homework and more like something personal.</p>
+     <p>i like music, games, cars, and lots of random stuff that make things feel alive.</p>
      <p>i’m still figuring out what kind of developer i want to become, but this site is part of that process.</p>`
   );
 }
@@ -98,9 +98,9 @@ function renderProjects() {
 function renderMusic() {
   return contentCard(
     'music',
-    `<p>this part is mostly about what is playing right now and songs people think i should hear.</p>
-     <p>the now playing card uses Last.fm, so it works better when Spotify is connected to Last.fm scrobbling.</p>
-     <p>recommendations are saved privately for now. no public chaos yet.</p>`
+    `<p>this part is mostly about what is playing right now and songs people think i should listen to.</p>
+     <p>the now playing card uses Last.fm, so it shows what im listening to.</p>
+     <p>(recommendations are saved privately for your information)</p>`
   );
 }
 
@@ -204,17 +204,17 @@ async function fetchNowPlaying() {
 
     if (!data.ok) throw new Error(data.message || 'Last.fm error');
 
-    if (!data.hasTrack) {
-      container.innerHTML = `
-        <div class="album-cover placeholder-cover">?</div>
-        <div>
-          <p class="track-status">idle</p>
-          <p class="track-name">not playing anything right now.</p>
-          <p class="track-artist">no recent song found</p>
-        </div>
-      `;
-      return;
-    }
+    if (!data.hasTrack || !data.nowPlaying) {
+  container.innerHTML = `
+    <div class="album-cover placeholder-cover">?</div>
+    <div>
+      <p class="track-status">idle</p>
+      <p class="track-name">nothing on rn.</p>
+      <p class="track-artist">silence hours...
+    </div>
+  `;
+  return;
+}
 
     const coverMarkup = data.cover
       ? `<img class="album-cover" src="${escapeHtml(data.cover)}" alt="album cover">`
