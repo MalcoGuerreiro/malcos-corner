@@ -585,11 +585,11 @@ textarea:focus {
     order: 0;
   }
 
-  .main-panel {
+  .sidebar {
     order: 1;
   }
 
-  .sidebar {
+  .main-panel {
     order: 2;
   }
 
