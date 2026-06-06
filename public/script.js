@@ -146,15 +146,20 @@ function renderLinks() {
     return contentCard('links', `<p class="empty-state">no links added yet.</p>`);
   }
 
-  const cards = links.map((link) => `
-    <a class="link-card card-clickable" href="${escapeHtml(link.url)}" target="${link.url.startsWith('mailto:') ? '_self' : '_blank'}" rel="noreferrer">
-      <span class="link-icon">${escapeHtml(link.icon)}</span>
-      <span>
-        <h3>${escapeHtml(link.name)}</h3>
-        <p>${escapeHtml(link.description)}</p>
-      </span>
-    </a>
-  `).join('');
+  const cards = links.map((link) => {
+    const isEmail = link.url.startsWith('mailto:');
+    const targetAttrs = isEmail ? '' : 'target="_blank" rel="noreferrer"';
+
+    return `
+      <a class="link-card card-clickable" href="${escapeHtml(link.url)}" ${targetAttrs}>
+        <span class="link-icon">${escapeHtml(link.icon)}</span>
+        <span>
+          <h3>${escapeHtml(link.name)}</h3>
+          <p>${escapeHtml(link.description)}</p>
+        </span>
+      </a>
+    `;
+  }).join('');
 
   return contentCard('links', `<p>a tiny link in bio, but with more personality.</p>`, `<div class="card-grid">${cards}</div>`);
 }
