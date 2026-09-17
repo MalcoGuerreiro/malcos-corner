@@ -10,13 +10,18 @@ window.MALCO_GAMES = [
     cover: './assets/images/games/sekiro.jpg'
   },
   {
+    title: 'Rocket League',
+    status: { en: 'peaking', pt: 'atingindo o meu maximo' },
+    cover: './assets/images/games/rocketleague.png'
+  },
+  {
     title: 'Street Fighter 6',
-    status: { en: 'learning neutral', pt: 'aprendendo neutral' },
+    status: { en: 'learning neutral', pt: 'aprendendo neutral game' },
     cover: './assets/images/games/sf6.jpg'
   },
   {
     title: 'Overwatch',
-    status: { en: 'rage quitting', pt: 'quitando de raiva' },
+    status: { en: 'rage quitting', pt: 'nao sei porque ainda jogo' },
     cover: './assets/images/games/overwatch.jpg'
   },
   {
