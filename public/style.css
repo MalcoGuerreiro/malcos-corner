@@ -355,6 +355,23 @@ textarea:focus {
   background: linear-gradient(#ffffff, #f1fbff);
 }
 
+.display-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.display-controls .wii-button {
+  width: 100%;
+}
+
+@media (max-width: 360px) {
+  .display-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
 .form-message {
   min-height: 20px;
   white-space: pre-line;

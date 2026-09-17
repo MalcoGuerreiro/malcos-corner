@@ -1,20 +1,29 @@
 window.MALCO_THINGS = [
   {
-    title: 'cars',
-    category: 'customs',
-    note: 'i dont know its just interesting (btw its a silvia s15)',
+    title: { en: 'cars', pt: 'carros' },
+    category: { en: 'customs', pt: 'customização' },
+    note: {
+      en: 'i dont know its just interesting (btw its a silvia s15)',
+      pt: 'sei lá, eu só acho interessante (aliás, é um Silvia S15)'
+    },
     image: './assets/images/things/car.png'
   },
   {
-    title: 'games',
-    category: 'gaming',
-    note: 'what i spend most of my time on',
+    title: { en: 'games', pt: 'jogos' },
+    category: { en: 'gaming', pt: 'games' },
+    note: {
+      en: 'what i spend most of my time on',
+      pt: 'onde eu gasto a maior parte do meu tempo'
+    },
     image: './assets/images/things/games.png'
   },
   {
-    title: 'music in general to be honest',
-    category: 'music',
-    note: 'recommendations in the recommendation tab!',
+    title: { en: 'music in general to be honest', pt: 'música no geral, pra falar a verdade' },
+    category: { en: 'music', pt: 'música' },
+    note: {
+      en: 'recommendations in the recommendation tab!',
+      pt: 'recomendações na área de recomendações!'
+    },
     image: './assets/images/things/music.png'
   }
 ];

@@ -1,4 +1,4 @@
-# Malco Corner
+# Malco's Corner
 
 A Wii-inspired personal website for Malco: clean, nostalgic, rounded, friendly, and a little unserious on purpose.
 
