@@ -550,6 +550,14 @@ a {
   gap: 16px;
 }
 
+.main-panel.focused-view .dashboard-grid {
+  display: none;
+}
+
+.main-panel.focused-view .content-feed {
+  margin-top: 0;
+}
+
 .content-card {
   padding: 24px;
 }
