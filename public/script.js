@@ -515,9 +515,7 @@ function renderLinks() {
 function renderAll() {
   return [
     renderWelcome(),
-    contentCard(t('previews.title'), `<p>${escapeHtml(t('previews.body'))}</p>`),
-    renderProjects(),
-    renderThings()
+    contentCard(t('previews.title'), `<p>${escapeHtml(t('previews.body'))}</p>`)
   ].join('');
 }
 
