@@ -432,16 +432,25 @@ function renderGames() {
   }
 
   const cards = games.map((game) => `
-    <article class="game-card card-clickable">
-      <div class="cover-frame">
-        ${game.cover ? `<img src="${escapeHtml(game.cover)}" alt="${escapeHtml(localized(game.title))} ${escapeHtml(t('games.coverAlt'))}">` : '▣'}
+    <article class="game-library-card card-clickable">
+      <div class="game-cover">
+        ${game.cover ? `<img src="${escapeHtml(game.cover)}" alt="${escapeHtml(localized(game.title))} ${escapeHtml(t('games.coverAlt'))}">` : '<span>▣</span>'}
       </div>
-      <h3>${escapeHtml(localized(game.title))}</h3>
-      ${game.status ? `<p class="status-pill">${escapeHtml(localized(game.status))}</p>` : ''}
+      <div class="game-meta">
+        <h3>${escapeHtml(localized(game.title))}</h3>
+        ${game.status ? `<p>${escapeHtml(localized(game.status))}</p>` : ''}
+      </div>
     </article>
   `).join('');
 
-  return contentCard(t('games.title'), `<p>${escapeHtml(t('games.intro'))}</p>`, `<div class="card-grid">${cards}</div>`);
+  return `
+    <article class="content-card games-view card">
+      <p class="eyebrow">malco's corner</p>
+      <h2>${escapeHtml(t('games.title'))}</h2>
+      <p class="section-intro">${escapeHtml(t('games.intro'))}</p>
+      <div class="game-library-grid">${cards}</div>
+    </article>
+  `;
 }
 
 function renderThings() {
@@ -450,17 +459,26 @@ function renderThings() {
   }
 
   const cards = things.map((thing) => `
-    <article class="thing-card card-clickable">
-      <div class="thing-image">
-        ${thing.image ? `<img src="${escapeHtml(thing.image)}" alt="${escapeHtml(localized(thing.title))}">` : '✦'}
+    <article class="thing-mood-card card-clickable">
+      <div class="thing-mood-image">
+        ${thing.image ? `<img src="${escapeHtml(thing.image)}" alt="${escapeHtml(localized(thing.title))}">` : '<span>✦</span>'}
       </div>
-      <p class="eyebrow">${escapeHtml(localized(thing.category))}</p>
-      <h3>${escapeHtml(localized(thing.title))}</h3>
-      <p>${escapeHtml(localized(thing.note))}</p>
+      <div class="thing-mood-copy">
+        <p class="thing-category">${escapeHtml(localized(thing.category))}</p>
+        <h3>${escapeHtml(localized(thing.title))}</h3>
+        <p>${escapeHtml(localized(thing.note))}</p>
+      </div>
     </article>
   `).join('');
 
-  return contentCard(t('things.title'), `<p>${escapeHtml(t('things.intro'))}</p>`, `<div class="card-grid">${cards}</div>`);
+  return `
+    <article class="content-card things-view card">
+      <p class="eyebrow">malco's corner</p>
+      <h2>${escapeHtml(t('things.title'))}</h2>
+      <p class="section-intro">${escapeHtml(t('things.intro'))}</p>
+      <div class="things-grid">${cards}</div>
+    </article>
+  `;
 }
 
 function renderLinks() {
