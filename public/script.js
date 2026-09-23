@@ -201,6 +201,7 @@ const state = {
 };
 
 const feed = document.querySelector('#content-feed');
+const mainPanel = document.querySelector('.main-panel');
 const tabButtons = document.querySelectorAll('.tab-button');
 const clickSound = document.querySelector('#click-sound');
 const muteToggle = document.querySelector('#mute-toggle');
@@ -289,21 +290,31 @@ function setLanguage(language) {
   updateLanguageButton();
   updateMuteButton();
   updateStats();
-  renderTab(state.activeTab);
+  setActiveTab(state.activeTab, false);
   updateClock();
   fetchNowPlaying();
 
   if (recommendationMessage) recommendationMessage.textContent = '';
 }
 
-function setActiveTab(tabName) {
+function setActiveTab(tabName, shouldScroll = true) {
   state.activeTab = tabName;
 
   tabButtons.forEach((button) => {
     button.classList.toggle('active', button.dataset.tab === tabName);
   });
 
+  mainPanel?.classList.toggle('focused-view', tabName !== 'all');
   renderTab(tabName);
+
+  if (shouldScroll) {
+    requestAnimationFrame(() => {
+      mainPanel?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
+  }
 }
 
 function contentCard(title, body, extra = '') {
@@ -629,7 +640,7 @@ applyStaticTranslations();
 updateLanguageButton();
 updateMuteButton();
 updateStats();
-setActiveTab('all');
+setActiveTab('all', false);
 updateClock();
 fetchNowPlaying();
 
