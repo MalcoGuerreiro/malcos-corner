@@ -19,123 +19,179 @@
   <div class="background-bubbles" aria-hidden="true"></div>
 
   <div class="app-shell">
-    <header class="mobile-header card glass-card">
-      <p class="eyebrow">malco's corner</p>
-      <h1 data-i18n="mobile.welcome">welcome to my corner</h1>
-    </header>
+    <aside class="navigation-shell">
+      <a class="brand" href="#" aria-label="Malco's Corner">
+        <span class="brand-blue">malco's</span>
+        <span>corner</span>
+      </a>
 
-    <aside class="sidebar" aria-label="personal widgets" data-i18n-aria-label="aria.personalWidgets">
-      <section class="card profile-card">
-        <div class="profile-image-wrap">
-          <img src="/assets/images/profile/malco-mii.png" alt="Mii-style avatar of Malco" class="profile-image" data-i18n-alt="profile.avatarAlt">
-        </div>
-        <div class="profile-copy">
-          <p class="eyebrow" data-i18n="profile.label">profile</p>
-          <h2>Malco Guerreiro</h2>
-          <p class="signature" data-i18n="profile.signature">a little bit of Malco trying to be Malco</p>
-          <div class="mini-details">
-            <span data-i18n="profile.country">brazil</span>
-            <span data-i18n="profile.student">computer engineering student that doesn't know what to put in here</span>
+      <nav class="side-tabs" aria-label="main sections" data-i18n-aria-label="aria.mainSections">
+        <button class="tab-button active" data-tab="all" type="button">
+          <span class="nav-icon" aria-hidden="true">⌂</span>
+          <span data-i18n="tabs.all">all</span>
+        </button>
+        <button class="tab-button" data-tab="about" type="button">
+          <span class="nav-icon" aria-hidden="true">○</span>
+          <span data-i18n="tabs.about">about</span>
+        </button>
+        <button class="tab-button" data-tab="projects" type="button">
+          <span class="nav-icon" aria-hidden="true">□</span>
+          <span data-i18n="tabs.projects">projects</span>
+        </button>
+        <button class="tab-button" data-tab="music" type="button">
+          <span class="nav-icon" aria-hidden="true">♪</span>
+          <span data-i18n="tabs.music">music</span>
+        </button>
+        <button class="tab-button" data-tab="games" type="button">
+          <span class="nav-icon nav-game" aria-hidden="true">⌘</span>
+          <span data-i18n="tabs.games">games</span>
+        </button>
+        <button class="tab-button" data-tab="things" type="button">
+          <span class="nav-icon" aria-hidden="true">☆</span>
+          <span data-i18n="tabs.things">things i’m into</span>
+        </button>
+        <button class="tab-button" data-tab="links" type="button">
+          <span class="nav-icon" aria-hidden="true">↗</span>
+          <span data-i18n="tabs.links">links</span>
+        </button>
+      </nav>
+
+      <footer class="sidebar-status" aria-label="current time and date" data-i18n-aria-label="aria.currentTime">
+        <p id="clock-time" class="clock-time">--:-- --</p>
+        <p id="clock-date" class="clock-date">---</p>
+      </footer>
+    </aside>
+
+    <main class="main-panel">
+      <header class="page-heading">
+        <h1 data-i18n="mobile.welcome">welcome to my corner</h1>
+        <div class="wii-wave" aria-hidden="true"><span></span></div>
+      </header>
+
+      <section class="dashboard-grid" aria-label="personal widgets" data-i18n-aria-label="aria.personalWidgets">
+        <section class="card profile-card">
+          <div class="profile-image-wrap">
+            <img src="/assets/images/profile/malco-mii.png" alt="Mii-style avatar of Malco" class="profile-image" data-i18n-alt="profile.avatarAlt">
           </div>
-        </div>
+          <div class="profile-copy">
+            <p class="eyebrow" data-i18n="profile.label">profile</p>
+            <h2>Malco Guerreiro</h2>
+            <p class="signature" data-i18n="profile.signature">a little bit of Malco trying to be Malco</p>
+            <div class="profile-details">
+              <span data-i18n="profile.country">brazil</span>
+              <span data-i18n="profile.student">computer engineering student that doesn't know what to put in here</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card display-widget">
+          <p class="eyebrow" data-i18n="display.label">display</p>
+          <div class="display-control-row">
+            <span class="control-icon" aria-hidden="true">◎</span>
+            <button id="language-toggle" class="wii-button secondary" type="button">language: EN</button>
+          </div>
+          <div class="display-control-row">
+            <span class="control-icon" aria-hidden="true">◖</span>
+            <button id="mute-toggle" class="wii-button secondary" type="button">sound: on</button>
+          </div>
+          <p class="tiny-note" data-i18n="display.note">language switches the whole site; click sounds can be muted here.</p>
+        </section>
+
+        <section class="card now-playing-widget" aria-live="polite">
+          <div class="widget-header">
+            <span class="channel-icon" aria-hidden="true">♪</span>
+            <div>
+              <p class="eyebrow" data-i18n="nowPlaying.label">now playing</p>
+              <h3 data-i18n="nowPlaying.title">what i'm listening to</h3>
+            </div>
+          </div>
+
+          <div id="now-playing" class="now-playing-content">
+            <div class="album-cover placeholder-cover">?</div>
+            <div class="track-copy">
+              <p class="track-status" data-i18n="nowPlaying.wait">please wait...</p>
+              <p class="track-name" data-i18n="nowPlaying.loading">loading song</p>
+              <p class="track-artist" data-i18n="nowPlaying.second">just a second</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card recommendation-widget">
+          <div class="widget-header">
+            <span class="channel-icon" aria-hidden="true">♪</span>
+            <div>
+              <p class="eyebrow" data-i18n="recommendation.label">music recommendation</p>
+              <h3 data-i18n="recommendation.title">send me a song</h3>
+            </div>
+          </div>
+
+          <button id="recommendation-open" class="recommendation-open wii-button" type="button">
+            <span aria-hidden="true">➤</span>
+            <span data-i18n="recommendation.title">send me a song</span>
+          </button>
+        </section>
+
+        <section class="card compact-widget currently-widget">
+          <div class="compact-title">
+            <span class="channel-icon small" aria-hidden="true">☆</span>
+            <p class="eyebrow" data-i18n="currently.label">currently into</p>
+          </div>
+          <ul class="soft-list">
+            <li><span data-i18n="currently.song">song</span><strong data-i18n="currently.songValue">whatever is looping</strong></li>
+            <li><span data-i18n="currently.game">game</span><strong data-i18n="currently.gameValue">melee most of the time</strong></li>
+            <li><span data-i18n="currently.thing">thing</span><strong data-i18n="currently.thingValue">Cars</strong></li>
+          </ul>
+        </section>
+
+        <section class="card compact-widget stats-widget">
+          <div class="compact-title">
+            <span class="channel-icon small" aria-hidden="true">▥</span>
+            <p class="eyebrow" data-i18n="stats.label">stats</p>
+          </div>
+          <ul class="soft-list" id="stats-list">
+            <li><span>projects</span><strong>0</strong></li>
+            <li><span>games listed</span><strong>0</strong></li>
+            <li><span>things</span><strong>0</strong></li>
+          </ul>
+        </section>
       </section>
 
-      <section class="card widget compact-widget display-widget">
-        <p class="eyebrow" data-i18n="display.label">display</p>
-        <div class="display-controls">
-          <button id="language-toggle" class="wii-button secondary" type="button">language: EN</button>
-          <button id="mute-toggle" class="wii-button secondary" type="button">sound: on</button>
-        </div>
-        <p class="tiny-note" data-i18n="display.note">language switches the whole site; click sounds can be muted here.</p>
-      </section>
+      <section id="content-feed" class="content-feed" aria-live="polite"></section>
+    </main>
+  </div>
 
-      <section class="card widget now-playing-widget" aria-live="polite">
+  <dialog id="recommendation-dialog" class="recommendation-dialog">
+    <div class="dialog-panel card">
+      <div class="dialog-header">
         <div class="widget-header">
-          <span class="channel-icon">♪</span>
-          <div>
-            <p class="eyebrow" data-i18n="nowPlaying.label">now playing</p>
-            <h3 data-i18n="nowPlaying.title">what i'm listening to</h3>
-          </div>
-        </div>
-        <div id="now-playing" class="now-playing-content">
-          <div class="album-cover placeholder-cover">?</div>
-          <div>
-            <p class="track-status" data-i18n="nowPlaying.wait">please wait...</p>
-            <p class="track-name" data-i18n="nowPlaying.loading">loading song</p>
-            <p class="track-artist" data-i18n="nowPlaying.second">just a second</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="card widget recommendation-widget">
-        <div class="widget-header">
-          <span class="channel-icon">✉</span>
+          <span class="channel-icon" aria-hidden="true">✉</span>
           <div>
             <p class="eyebrow" data-i18n="recommendation.label">music recommendation</p>
             <h3 data-i18n="recommendation.title">send me a song</h3>
           </div>
         </div>
-        <form id="recommendation-form" class="recommendation-form">
-          <label>
-            <span data-i18n="recommendation.name">your name</span>
-            <input type="text" name="visitor_name" maxlength="40" placeholder="someone cool" data-i18n-placeholder="recommendation.namePlaceholder">
-          </label>
-          <label>
-            <span data-i18n="recommendation.song">artist - song</span>
-            <input type="text" name="artist_song" maxlength="120" placeholder="artist - song" required data-i18n-placeholder="recommendation.songPlaceholder">
-          </label>
-          <label>
-            <span data-i18n="recommendation.why">why? optional</span>
-            <textarea name="reason" maxlength="300" rows="3" placeholder="because it feels like a save point" data-i18n-placeholder="recommendation.whyPlaceholder"></textarea>
-          </label>
-          <input class="hidden-field" type="text" name="website" tabindex="-1" autocomplete="off">
-          <button type="submit" class="wii-button" data-i18n="recommendation.send">send recommendation</button>
-          <p id="recommendation-message" class="form-message" aria-live="polite"></p>
-        </form>
-      </section>
+        <button id="recommendation-close" class="dialog-close" type="button" aria-label="Close">×</button>
+      </div>
 
-      <section class="card widget compact-widget">
-        <p class="eyebrow" data-i18n="currently.label">currently into</p>
-        <ul class="soft-list">
-          <li><span data-i18n="currently.song">song</span><strong data-i18n="currently.songValue">whatever is looping</strong></li>
-          <li><span data-i18n="currently.game">game</span><strong data-i18n="currently.gameValue">melee most of the time</strong></li>
-          <li><span data-i18n="currently.thing">thing</span><strong data-i18n="currently.thingValue">Cars</strong></li>
-        </ul>
-      </section>
-
-      <section class="card widget compact-widget">
-        <p class="eyebrow" data-i18n="stats.label">stats</p>
-        <ul class="soft-list" id="stats-list">
-          <li><span>projects</span><strong>0</strong></li>
-          <li><span>games listed</span><strong>0</strong></li>
-          <li><span>things</span><strong>0</strong></li>
-        </ul>
-      </section>
-
-    </aside>
-
-    <main class="main-panel">
-      <nav class="tabs card" aria-label="main sections" data-i18n-aria-label="aria.mainSections">
-        <button class="tab-button active" data-tab="all" data-i18n="tabs.all">all</button>
-        <button class="tab-button" data-tab="about" data-i18n="tabs.about">about</button>
-        <button class="tab-button" data-tab="projects" data-i18n="tabs.projects">projects</button>
-        <button class="tab-button" data-tab="music" data-i18n="tabs.music">music</button>
-        <button class="tab-button" data-tab="games" data-i18n="tabs.games">games</button>
-        <button class="tab-button" data-tab="things" data-i18n="tabs.things">things i’m into</button>
-        <button class="tab-button" data-tab="links" data-i18n="tabs.links">links</button>
-      </nav>
-
-      <section id="content-feed" class="content-feed" aria-live="polite"></section>
-
-      <footer class="status-bar card" aria-label="current time and date" data-i18n-aria-label="aria.currentTime">
-        <div class="status-line"></div>
-        <div>
-          <p id="clock-time" class="clock-time">--:-- --</p>
-          <p id="clock-date" class="clock-date">---</p>
-        </div>
-      </footer>
-    </main>
-  </div>
+      <form id="recommendation-form" class="recommendation-form">
+        <label>
+          <span data-i18n="recommendation.name">your name</span>
+          <input type="text" name="visitor_name" maxlength="40" placeholder="someone cool" data-i18n-placeholder="recommendation.namePlaceholder">
+        </label>
+        <label>
+          <span data-i18n="recommendation.song">artist - song</span>
+          <input type="text" name="artist_song" maxlength="120" placeholder="artist - song" required data-i18n-placeholder="recommendation.songPlaceholder">
+        </label>
+        <label>
+          <span data-i18n="recommendation.why">why? optional</span>
+          <textarea name="reason" maxlength="300" rows="3" placeholder="because it feels like a save point" data-i18n-placeholder="recommendation.whyPlaceholder"></textarea>
+        </label>
+        <input class="hidden-field" type="text" name="website" tabindex="-1" autocomplete="off">
+        <button type="submit" class="wii-button" data-i18n="recommendation.send">send recommendation</button>
+        <p id="recommendation-message" class="form-message" aria-live="polite"></p>
+      </form>
+    </div>
+  </dialog>
 
   <audio id="click-sound" preload="auto" src="/assets/sounds/click.wav"></audio>
 </body>
