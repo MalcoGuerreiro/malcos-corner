@@ -157,8 +157,9 @@ a {
 }
 
 .sidebar-status {
-  margin-top: auto;
-  padding: 22px 14px 4px;
+  margin-top: 24px;
+  padding: 18px 14px 4px;
+  border-top: 1px solid var(--line);
   color: #95a0b0;
 }
 
