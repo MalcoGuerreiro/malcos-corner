@@ -217,6 +217,57 @@ const games = window.MALCO_GAMES || [];
 const things = window.MALCO_THINGS || [];
 const links = window.MALCO_LINKS || [];
 
+let nowPlayingProgress = {
+  key: '',
+  startedAt: 0,
+  durationMs: 0
+};
+
+function formatTrackTime(milliseconds) {
+  const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
+function setNowPlayingProgress(trackKey, durationMs) {
+  const savedKey = sessionStorage.getItem('malco-now-playing-key');
+  const savedStart = Number(sessionStorage.getItem('malco-now-playing-start'));
+
+  if (savedKey === trackKey && Number.isFinite(savedStart) && savedStart > 0) {
+    nowPlayingProgress = { key: trackKey, startedAt: savedStart, durationMs };
+    return;
+  }
+
+  const startedAt = Date.now();
+  nowPlayingProgress = { key: trackKey, startedAt, durationMs };
+  sessionStorage.setItem('malco-now-playing-key', trackKey);
+  sessionStorage.setItem('malco-now-playing-start', String(startedAt));
+}
+
+function clearNowPlayingProgress() {
+  nowPlayingProgress = { key: '', startedAt: 0, durationMs: 0 };
+  sessionStorage.removeItem('malco-now-playing-key');
+  sessionStorage.removeItem('malco-now-playing-start');
+}
+
+function updateNowPlayingProgress() {
+  const progressBar = document.querySelector('#track-progress-bar');
+  const elapsedLabel = document.querySelector('#track-progress-elapsed');
+  const durationLabel = document.querySelector('#track-progress-duration');
+
+  if (!progressBar || !elapsedLabel || !durationLabel || !nowPlayingProgress.durationMs) return;
+
+  const elapsed = Math.min(
+    Math.max(Date.now() - nowPlayingProgress.startedAt, 0),
+    nowPlayingProgress.durationMs
+  );
+
+  progressBar.style.width = `${(elapsed / nowPlayingProgress.durationMs) * 100}%`;
+  elapsedLabel.textContent = formatTrackTime(elapsed);
+  durationLabel.textContent = formatTrackTime(nowPlayingProgress.durationMs);
+}
+
 function t(key) {
   return translations[state.language]?.[key] || translations.en[key] || key;
 }
@@ -423,16 +474,24 @@ function renderLinks() {
 
     return `
       <a class="link-card card-clickable" href="${escapeHtml(link.url)}" ${targetAttrs}>
-        <span class="link-icon">${escapeHtml(link.icon)}</span>
-        <span>
-          <h3>${escapeHtml(localized(link.name))}</h3>
-          <p>${escapeHtml(localized(link.description))}</p>
+        <span class="link-icon" aria-hidden="true">${escapeHtml(link.icon)}</span>
+        <span class="link-copy">
+          <strong>${escapeHtml(localized(link.name))}</strong>
+          <span>${escapeHtml(localized(link.description))}</span>
         </span>
+        <span class="link-arrow" aria-hidden="true">↗</span>
       </a>
     `;
   }).join('');
 
-  return contentCard(t('links.title'), `<p>${escapeHtml(t('links.intro'))}</p>`, `<div class="card-grid">${cards}</div>`);
+  return `
+    <article class="content-card links-view card">
+      <p class="eyebrow">malco's corner</p>
+      <h2>${escapeHtml(t('links.title'))}</h2>
+      <p class="links-intro">${escapeHtml(t('links.intro'))}</p>
+      <div class="links-grid">${cards}</div>
+    </article>
+  `;
 }
 
 function renderAll() {
@@ -501,6 +560,7 @@ async function fetchNowPlaying() {
     if (!data.ok) throw new Error(data.message || 'Last.fm error');
 
     if (!data.hasTrack || !data.nowPlaying) {
+      clearNowPlayingProgress();
       container.innerHTML = `
         <div class="album-cover placeholder-cover">?</div>
         <div>
@@ -516,15 +576,42 @@ async function fetchNowPlaying() {
       ? `<img class="album-cover" src="${escapeHtml(data.cover)}" alt="${escapeHtml(t('nowPlaying.albumAlt'))}">`
       : `<div class="album-cover placeholder-cover">${escapeHtml(t('nowPlaying.noCover'))}</div>`;
 
+    const durationMs = Number(data.durationMs) || 0;
+    const trackKey = `${data.artist || ''}::${data.name || ''}`;
+
+    if (durationMs > 0 && nowPlayingProgress.key !== trackKey) {
+      setNowPlayingProgress(trackKey, durationMs);
+    } else if (durationMs > 0) {
+      nowPlayingProgress.durationMs = durationMs;
+    }
+
+    const progressMarkup = durationMs > 0
+      ? `
+        <div class="track-progress" aria-label="estimated song progress">
+          <div class="track-progress-rail">
+            <span id="track-progress-bar" class="track-progress-bar"></span>
+          </div>
+          <div class="track-progress-times">
+            <span id="track-progress-elapsed">0:00</span>
+            <span id="track-progress-duration">${formatTrackTime(durationMs)}</span>
+          </div>
+        </div>
+      `
+      : '';
+
     container.innerHTML = `
       ${coverMarkup}
-      <div>
+      <div class="track-copy">
         <p class="track-status">${escapeHtml(translateNowPlayingStatus(data.status))}</p>
         <p class="track-name">${escapeHtml(data.name)}</p>
         <p class="track-artist">${escapeHtml(data.artist)}</p>
+        ${progressMarkup}
       </div>
     `;
+
+    updateNowPlayingProgress();
   } catch (error) {
+    clearNowPlayingProgress();
     container.innerHTML = `
       <div class="album-cover placeholder-cover">:(</div>
       <div>
@@ -645,4 +732,5 @@ updateClock();
 fetchNowPlaying();
 
 setInterval(updateClock, 1000);
+setInterval(updateNowPlayingProgress, 1000);
 setInterval(fetchNowPlaying, 60_000);
