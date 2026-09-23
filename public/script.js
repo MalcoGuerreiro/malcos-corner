@@ -207,6 +207,9 @@ const muteToggle = document.querySelector('#mute-toggle');
 const languageToggle = document.querySelector('#language-toggle');
 const recommendationForm = document.querySelector('#recommendation-form');
 const recommendationMessage = document.querySelector('#recommendation-message');
+const recommendationOpen = document.querySelector('#recommendation-open');
+const recommendationDialog = document.querySelector('#recommendation-dialog');
+const recommendationClose = document.querySelector('#recommendation-close');
 
 const projects = window.MALCO_PROJECTS || [];
 const games = window.MALCO_GAMES || [];
@@ -606,6 +609,18 @@ muteToggle?.addEventListener('click', () => {
   localStorage.setItem('malco-muted', String(state.muted));
   updateMuteButton();
   if (!state.muted) playClick();
+});
+
+recommendationOpen?.addEventListener('click', () => {
+  recommendationDialog?.showModal();
+});
+
+recommendationClose?.addEventListener('click', () => {
+  recommendationDialog?.close();
+});
+
+recommendationDialog?.addEventListener('click', (event) => {
+  if (event.target === recommendationDialog) recommendationDialog.close();
 });
 
 recommendationForm?.addEventListener('submit', submitRecommendation);
