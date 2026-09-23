@@ -778,7 +778,8 @@ a {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #f4f7fa;
+  padding: 12px;
+  background: linear-gradient(180deg, #fafcff 0%, #f3f7fb 100%);
   color: var(--blue);
   font-size: 2rem;
 }
@@ -786,7 +787,8 @@ a {
 .thing-mood-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .thing-mood-copy {
