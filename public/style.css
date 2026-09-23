@@ -687,6 +687,134 @@ a {
   object-fit: cover;
 }
 
+.games-view,
+.things-view {
+  padding: 28px;
+}
+
+.section-intro {
+  max-width: 680px;
+  margin: 8px 0 22px;
+  color: #7b8798;
+}
+
+.game-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+}
+
+.game-library-card {
+  min-width: 0;
+  transition: transform 160ms ease;
+}
+
+.game-library-card:hover {
+  transform: translateY(-3px);
+}
+
+.game-cover {
+  aspect-ratio: 3 / 4;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: #f5f8fb;
+  color: var(--blue);
+  font-size: 2rem;
+  box-shadow: 0 7px 20px rgba(53, 76, 105, 0.07);
+}
+
+.game-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-meta {
+  padding: 10px 3px 0;
+}
+
+.game-meta h3 {
+  margin: 0;
+  overflow: hidden;
+  color: #314057;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-meta p {
+  margin: 4px 0 0;
+  color: #91a0b2;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.things-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.thing-mood-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fbfcfe;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.thing-mood-card:hover {
+  transform: translateY(-2px);
+  border-color: #c8e4f8;
+}
+
+.thing-mood-image {
+  aspect-ratio: 16 / 9;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #f4f7fa;
+  color: var(--blue);
+  font-size: 2rem;
+}
+
+.thing-mood-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thing-mood-copy {
+  padding: 16px 17px 18px;
+}
+
+.thing-category {
+  margin: 0 0 4px;
+  color: var(--blue-strong);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.thing-mood-copy h3 {
+  margin: 0;
+  color: #314057;
+  font-size: 1.05rem;
+}
+
+.thing-mood-copy > p:last-child {
+  margin: 7px 0 0;
+  color: #7f8b9c;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
 .links-view {
   padding: 28px;
 }
@@ -1000,8 +1128,14 @@ textarea:focus {
     grid-template-columns: 92px minmax(0, 1fr);
   }
 
-  .links-grid {
+  .links-grid,
+  .things-grid {
     grid-template-columns: 1fr;
+  }
+
+  .game-library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+    gap: 14px;
   }
 }
 
