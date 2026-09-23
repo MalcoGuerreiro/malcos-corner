@@ -17,6 +17,8 @@ const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabase
 
 const recommendationCooldown = new Map();
 const COOLDOWN_MS = 20_000;
+const trackDurationCache = new Map();
+const TRACK_DURATION_CACHE_MS = 24 * 60 * 60 * 1000;
 
 function cleanText(value, maxLength) {
   return String(value || '')
@@ -30,6 +32,42 @@ function getClientKey(req) {
   const forwarded = req.headers['x-forwarded-for'];
   const ip = Array.isArray(forwarded) ? forwarded[0] : String(forwarded || req.ip || 'unknown');
   return ip.split(',')[0].trim();
+}
+
+async function getLastFmTrackDuration(apiKey, artist, trackName) {
+  if (!artist || !trackName) return 0;
+
+  const cacheKey = `${artist.toLowerCase()}::${trackName.toLowerCase()}`;
+  const cached = trackDurationCache.get(cacheKey);
+
+  if (cached && Date.now() - cached.savedAt < TRACK_DURATION_CACHE_MS) {
+    return cached.durationMs;
+  }
+
+  const infoUrl = new URL('https://ws.audioscrobbler.com/2.0/');
+  infoUrl.searchParams.set('method', 'track.getInfo');
+  infoUrl.searchParams.set('api_key', apiKey);
+  infoUrl.searchParams.set('artist', artist);
+  infoUrl.searchParams.set('track', trackName);
+  infoUrl.searchParams.set('format', 'json');
+  infoUrl.searchParams.set('autocorrect', '1');
+
+  try {
+    const response = await fetch(infoUrl);
+    if (!response.ok) return 0;
+
+    const data = await response.json();
+    const durationMs = Number.parseInt(data?.track?.duration, 10) || 0;
+
+    trackDurationCache.set(cacheKey, {
+      durationMs,
+      savedAt: Date.now()
+    });
+
+    return durationMs;
+  } catch {
+    return 0;
+  }
 }
 
 app.get('/api/health', (_req, res) => {
@@ -70,16 +108,23 @@ app.get('/api/lastfm/now-playing', async (_req, res) => {
     const cover = [...images].reverse().find((image) => image['#text'])?.['#text'] || '';
     const nowPlaying = track?.['@attr']?.nowplaying === 'true';
 
+    const name = track.name || 'unknown song';
+    const artist = track.artist?.['#text'] || 'unknown artist';
+    const durationMs = nowPlaying
+      ? await getLastFmTrackDuration(apiKey, artist, name)
+      : 0;
+
     return res.json({
       ok: true,
       hasTrack: true,
       nowPlaying,
       status: nowPlaying ? 'now playing' : 'last played',
-      name: track.name || 'unknown song',
-      artist: track.artist?.['#text'] || 'unknown artist',
+      name,
+      artist,
       album: track.album?.['#text'] || '',
       url: track.url || '',
-      cover
+      cover,
+      durationMs
     });
   } catch (error) {
     return res.status(500).json({
