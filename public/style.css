@@ -479,6 +479,37 @@ a {
   font-size: 1rem;
 }
 
+.track-progress {
+  margin-top: 22px;
+}
+
+.track-progress-rail {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dfe6ee;
+}
+
+.track-progress-bar {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #75c4f8, #2da2ed);
+  transition: width 1s linear;
+}
+
+.track-progress-times {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #8a96a7;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .recommendation-open {
   width: 100%;
   margin-top: auto;
@@ -655,22 +686,77 @@ a {
   object-fit: cover;
 }
 
+.links-view {
+  padding: 28px;
+}
+
+.links-intro {
+  max-width: 620px;
+  margin: 8px 0 22px;
+  color: #7b8798;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .link-card {
-  display: flex;
+  min-width: 0;
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 24px;
   align-items: center;
-  gap: 13px;
+  gap: 14px;
+  padding: 14px 16px;
 }
 
 .link-icon {
-  width: 46px;
-  height: 46px;
-  flex: 0 0 46px;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  color: var(--blue);
+  border-radius: 15px;
+  color: var(--blue-strong);
   background: var(--blue-soft);
   font-weight: 900;
+  font-size: 0.95rem;
+}
+
+.link-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.link-copy strong {
+  overflow: hidden;
+  color: #314057;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-copy span {
+  overflow: hidden;
+  color: #8a95a6;
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-arrow {
+  color: #9aa6b5;
+  font-size: 1.05rem;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.link-card:hover .link-arrow {
+  color: var(--blue-strong);
+  transform: translate(2px, -2px);
 }
 
 .empty-state {
@@ -911,6 +997,10 @@ textarea:focus {
 
   .soft-list li {
     grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .links-grid {
+    grid-template-columns: 1fr;
   }
 }
 
