@@ -1509,11 +1509,11 @@ html[data-theme='dark'] textarea::placeholder {
 }
 
 .rating-star {
-  font-size: 0.92rem;
+  font-size: 1.08rem;
 }
 
 .rating-star.full {
-  color: #f2b63d;
+  color: var(--blue-strong);
 }
 
 .rating-star.empty {
@@ -1522,7 +1522,7 @@ html[data-theme='dark'] textarea::placeholder {
 
 .rating-star.half {
   color: transparent;
-  background: linear-gradient(90deg, #f2b63d 50%, #d4dce6 50%);
+  background: linear-gradient(90deg, var(--blue-strong) 50%, #d4dce6 50%);
   background-clip: text;
   -webkit-background-clip: text;
 }
@@ -1598,7 +1598,7 @@ html[data-theme='dark'] textarea::placeholder {
 }
 
 .album-detail-heading .album-rating .rating-star {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 .album-detail-date {
@@ -1677,7 +1677,7 @@ html[data-theme='dark'] .rating-star.empty {
 }
 
 html[data-theme='dark'] .rating-star.half {
-  background: linear-gradient(90deg, #f2b63d 50%, #465365 50%);
+  background: linear-gradient(90deg, var(--blue-strong) 50%, #465365 50%);
   background-clip: text;
   -webkit-background-clip: text;
 }
