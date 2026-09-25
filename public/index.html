@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Malco's Corner</title>
   <meta name="description" content="Malco's little corner of the internet.">
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script>
     try {
       const savedTheme = localStorage.getItem('malco-theme');
-      document.documentElement.dataset.theme = savedTheme === 'dark' ? 'dark' : 'light';
+      const systemPrefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme =
+        savedTheme === 'dark' || (!savedTheme && systemPrefersDark) ? 'dark' : 'light';
     } catch {
-      document.documentElement.dataset.theme = 'light';
+      document.documentElement.dataset.theme =
+        window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
   </script>
   <link rel="stylesheet" href="/style.css">
@@ -96,7 +100,7 @@
           </div>
           <div class="display-control-row">
             <span class="control-icon" aria-hidden="true">◐</span>
-            <button id="theme-toggle" class="wii-button secondary" type="button">theme: light</button>
+            <button id="theme-toggle" class="wii-button secondary" type="button">☀ theme: light</button>
           </div>
           <div class="display-control-row">
             <span class="control-icon" aria-hidden="true">◖</span>
