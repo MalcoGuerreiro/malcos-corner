@@ -1390,3 +1390,339 @@ html[data-theme='dark'] textarea::placeholder {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Music library */
+:root {
+  --favorite-gold: #c99a2e;
+  --favorite-line: #e3c36d;
+  --favorite-surface: #fff8e5;
+}
+
+.music-view {
+  padding: 28px;
+}
+
+.album-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.album-library-card {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  transition: transform 160ms ease;
+}
+
+.album-library-card:hover {
+  transform: translateY(-3px);
+}
+
+.album-cover-square {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  color: var(--blue);
+  font-size: 2rem;
+  box-shadow: 0 7px 20px rgba(53, 76, 105, 0.07);
+}
+
+.album-cover-square img,
+.album-detail-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.album-meta {
+  min-height: 132px;
+  margin-top: 10px;
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-soft);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.album-library-card:hover .album-meta {
+  border-color: var(--line-blue);
+}
+
+.album-library-card.favorite .album-meta {
+  border-color: var(--favorite-line);
+  background: var(--favorite-surface);
+}
+
+.favorite-album-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 6px;
+  color: var(--favorite-gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.album-meta h3 {
+  margin: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 0.97rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-artist {
+  margin: 4px 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-card-footer {
+  margin-top: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.album-rating {
+  display: inline-flex;
+  gap: 1px;
+  line-height: 1;
+}
+
+.rating-star {
+  font-size: 0.92rem;
+}
+
+.rating-star.full {
+  color: #f2b63d;
+}
+
+.rating-star.empty {
+  color: #d4dce6;
+}
+
+.rating-star.half {
+  color: transparent;
+  background: linear-gradient(90deg, #f2b63d 50%, #d4dce6 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.album-listened-date {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.album-detail-dialog {
+  width: min(780px, calc(100% - 24px));
+  max-height: 90vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.album-detail-dialog::backdrop {
+  background: rgba(41, 56, 76, 0.32);
+  backdrop-filter: blur(6px);
+}
+
+.album-detail-panel {
+  position: relative;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 28px;
+  background: var(--surface);
+}
+
+.album-detail-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+}
+
+.album-detail-hero {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+  padding-right: 44px;
+}
+
+.album-detail-cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface-soft);
+  color: var(--blue);
+  font-size: 2.5rem;
+}
+
+.album-detail-heading h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.album-detail-artist {
+  margin: 8px 0 16px;
+  color: var(--muted);
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.album-detail-heading .album-rating .rating-star {
+  font-size: 1.15rem;
+}
+
+.album-detail-date {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.album-detail-date span {
+  margin-right: 4px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.detail-favorite {
+  margin-bottom: 9px;
+}
+
+.album-detail-sections {
+  margin-top: 26px;
+  display: grid;
+  gap: 14px;
+}
+
+.album-detail-section {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface-soft);
+}
+
+.album-detail-section .eyebrow {
+  margin-bottom: 10px;
+}
+
+.album-track-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.album-track-list li {
+  padding: 7px 10px;
+  border: 1px solid var(--line-blue);
+  border-radius: 999px;
+  background: var(--surface-blue);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.album-review-text,
+.album-detail-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+html[data-theme='dark'] {
+  --favorite-gold: #f0c55c;
+  --favorite-line: #78642f;
+  --favorite-surface: #302819;
+}
+
+html[data-theme='dark'] .album-cover-square {
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme='dark'] .rating-star.empty {
+  color: #465365;
+}
+
+html[data-theme='dark'] .rating-star.half {
+  background: linear-gradient(90deg, #f2b63d 50%, #465365 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+html[data-theme='dark'] .album-detail-dialog::backdrop {
+  background: rgba(3, 8, 14, 0.65);
+}
+
+@media (max-width: 760px) {
+  .album-library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    gap: 15px;
+  }
+
+  .album-detail-panel {
+    padding: 22px;
+  }
+
+  .album-detail-hero {
+    grid-template-columns: 155px minmax(0, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .album-detail-hero {
+    grid-template-columns: 1fr;
+    padding-right: 0;
+  }
+
+  .album-detail-cover {
+    width: min(260px, 100%);
+    margin: 0 auto;
+  }
+
+  .album-detail-heading {
+    text-align: center;
+  }
+
+  .album-detail-heading .album-rating {
+    justify-content: center;
+  }
+
+  .album-detail-close {
+    top: 12px;
+    right: 12px;
+  }
+}
