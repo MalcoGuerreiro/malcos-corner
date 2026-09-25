@@ -1459,6 +1459,21 @@ html[data-theme='dark'] textarea::placeholder {
   border-color: var(--line-blue);
 }
 
+.album-library-card.favorite {
+  position: relative;
+  border-radius: 22px;
+}
+
+.album-library-card.favorite::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border: 2px solid var(--favorite-line);
+  border-radius: 24px;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(201, 154, 46, 0.08), 0 8px 24px rgba(201, 154, 46, 0.12);
+}
+
 .album-library-card.favorite .album-meta {
   border-color: var(--favorite-line);
   background: var(--favorite-surface);
