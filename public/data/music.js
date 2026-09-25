@@ -4,6 +4,7 @@ window.MALCO_ALBUMS = [
     artist: 'Radiohead',
     cover: './assets/images/music/okcomputer.png',
     releaseDate: '1997-05-21',
+    listenedOn: '2026-09-25',
     rating: 5,
     favorite: false,
     favoriteTracks: [
@@ -26,6 +27,7 @@ window.MALCO_ALBUMS = [
     artist: 'Artist name',
     cover: './assets/images/music/album-name.jpg',
     releaseDate: 'YYYY-MM-DD',
+    listenedOn: 'YYYY-MM-DD',
     rating: 4.5,
     favorite: false,
     favoriteTracks: [
