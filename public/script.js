@@ -62,9 +62,16 @@ const translations = {
     'projects.intro': 'real projects, real ideas, and things that are actually being built.',
     'projects.open': 'open project →',
     'music.title': 'music',
-    'music.body1': 'this part is mostly about what is playing right now and songs people think i should listen to.',
-    'music.body2': 'the now playing card uses Last.fm, so it shows what im listening to.',
-    'music.body3': '(recommendations are saved privately for your information)',
+    'music.intro': 'albums i listened to, what i thought about them, and the songs i kept coming back to.',
+    'music.empty': 'no albums here yet.\n\nonce i listen to something worth keeping, it will show up here.',
+    'music.listenedOn': 'listened',
+    'music.favorite': 'favorite album',
+    'music.favoriteTracks': 'favorite tracks',
+    'music.review': 'review',
+    'music.noFavoriteTracks': 'no favorite tracks marked yet.',
+    'music.noReview': 'no review yet.',
+    'music.coverAlt': 'album cover',
+    'music.ratingLabel': 'out of 5 stars',
     'games.title': 'games',
     'games.empty': 'no games here yet.\n\nwhich is weird, honestly.',
     'games.intro': 'just a small list of games i like. no long reviews, no fake deep takes.',
@@ -160,9 +167,16 @@ const translations = {
     'projects.intro': 'projetos de verdade, ideias de verdade e coisas que realmente estão sendo construídas.',
     'projects.open': 'abrir projeto →',
     'music.title': 'música',
-    'music.body1': 'esta parte é principalmente sobre o que está tocando agora e as músicas que as pessoas acham que eu deveria ouvir.',
-    'music.body2': 'o card de tocando agora usa o Last.fm, então ele mostra o que eu estou ouvindo.',
-    'music.body3': '(as recomendações ficam salvas de forma privada, só para eu ver)',
+    'music.intro': 'álbuns que eu ouvi, o que achei deles e as músicas que mais ficaram comigo.',
+    'music.empty': 'nenhum álbum por aqui ainda.\n\nquando eu ouvir algo que vale guardar, vai aparecer aqui.',
+    'music.listenedOn': 'ouvido em',
+    'music.favorite': 'álbum favorito',
+    'music.favoriteTracks': 'músicas favoritas',
+    'music.review': 'review',
+    'music.noFavoriteTracks': 'nenhuma música favorita marcada ainda.',
+    'music.noReview': 'sem review ainda.',
+    'music.coverAlt': 'capa do álbum',
+    'music.ratingLabel': 'de 5 estrelas',
     'games.title': 'jogos',
     'games.empty': 'nenhum jogo por aqui ainda.\n\no que é meio estranho, sinceramente.',
     'games.intro': 'só uma pequena lista de jogos que eu gosto. sem reviews enormes e sem análises profundas de mentira.',
@@ -221,11 +235,17 @@ const recommendationMessage = document.querySelector('#recommendation-message');
 const recommendationOpen = document.querySelector('#recommendation-open');
 const recommendationDialog = document.querySelector('#recommendation-dialog');
 const recommendationClose = document.querySelector('#recommendation-close');
+const albumDetailDialog = document.querySelector('#album-detail-dialog');
+const albumDetailContent = document.querySelector('#album-detail-content');
+const albumDetailClose = document.querySelector('#album-detail-close');
 
 const projects = window.MALCO_PROJECTS || [];
+const albums = window.MALCO_ALBUMS || [];
 const games = window.MALCO_GAMES || [];
 const things = window.MALCO_THINGS || [];
 const links = window.MALCO_LINKS || [];
+
+let activeAlbumIndex = null;
 
 let nowPlayingProgress = {
   key: '',
@@ -373,6 +393,10 @@ function setLanguage(language) {
   updateClock();
   fetchNowPlaying();
 
+  if (albumDetailDialog?.open && activeAlbumIndex !== null) {
+    showAlbumDetails(activeAlbumIndex);
+  }
+
   if (recommendationMessage) recommendationMessage.textContent = '';
 }
 
@@ -445,13 +469,152 @@ function renderProjects() {
   return contentCard(t('projects.title'), `<p>${escapeHtml(t('projects.intro'))}</p>`, `<div class="card-grid">${cards}</div>`);
 }
 
+function clampAlbumRating(value) {
+  const rating = Number(value);
+  if (!Number.isFinite(rating)) return 0;
+  return Math.min(5, Math.max(0, Math.round(rating * 2) / 2));
+}
+
+function renderAlbumStars(value) {
+  const rating = clampAlbumRating(value);
+  const stars = Array.from({ length: 5 }, (_, index) => {
+    const point = index + 1;
+    const stateClass = rating >= point
+      ? 'full'
+      : rating >= point - 0.5
+        ? 'half'
+        : 'empty';
+
+    return `<span class="rating-star ${stateClass}" aria-hidden="true">★</span>`;
+  }).join('');
+
+  return `
+    <span class="album-rating" role="img" aria-label="${escapeHtml(`${rating} ${t('music.ratingLabel')}`)}">
+      ${stars}
+    </span>
+  `;
+}
+
+function formatAlbumDate(value) {
+  if (!value) return '';
+
+  const dateString = String(value);
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateString);
+  const date = match
+    ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+    : new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) return dateString;
+
+  return date.toLocaleDateString(state.language === 'pt' ? 'pt-BR' : 'en-US', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
 function renderMusic() {
-  return contentCard(
-    t('music.title'),
-    `<p>${escapeHtml(t('music.body1'))}</p>
-     <p>${escapeHtml(t('music.body2'))}</p>
-     <p>${escapeHtml(t('music.body3'))}</p>`
-  );
+  if (!albums.length) {
+    return contentCard(
+      t('music.title'),
+      `<p class="empty-state">${escapeHtml(t('music.empty'))}</p>`
+    );
+  }
+
+  const cards = albums.map((album, index) => {
+    const isFavorite = album.favorite === true;
+    const listenedDate = formatAlbumDate(album.listenedOn);
+
+    return `
+      <button
+        class="album-library-card card-clickable ${isFavorite ? 'favorite' : ''}"
+        type="button"
+        data-album-index="${index}"
+        aria-label="${escapeHtml(`${localized(album.title)} — ${localized(album.artist)}`)}"
+      >
+        <div class="album-cover-square">
+          ${album.cover
+            ? `<img src="${escapeHtml(album.cover)}" alt="${escapeHtml(localized(album.title))} ${escapeHtml(t('music.coverAlt'))}">`
+            : '<span>♪</span>'}
+        </div>
+
+        <div class="album-meta">
+          ${isFavorite ? `<span class="favorite-album-label">★ ${escapeHtml(t('music.favorite'))}</span>` : ''}
+          <h3>${escapeHtml(localized(album.title))}</h3>
+          <p class="album-artist">${escapeHtml(localized(album.artist))}</p>
+          <div class="album-card-footer">
+            ${renderAlbumStars(album.rating)}
+            ${listenedDate ? `<span class="album-listened-date">${escapeHtml(listenedDate)}</span>` : ''}
+          </div>
+        </div>
+      </button>
+    `;
+  }).join('');
+
+  return `
+    <article class="content-card music-view card">
+      <p class="eyebrow">malco's corner</p>
+      <h2>${escapeHtml(t('music.title'))}</h2>
+      <p class="section-intro">${escapeHtml(t('music.intro'))}</p>
+      <div class="album-library-grid">${cards}</div>
+    </article>
+  `;
+}
+
+function showAlbumDetails(index) {
+  const album = albums[index];
+  if (!album || !albumDetailContent || !albumDetailDialog) return;
+
+  activeAlbumIndex = index;
+
+  const favoriteTracks = Array.isArray(album.favoriteTracks)
+    ? album.favoriteTracks.filter(Boolean)
+    : [];
+  const review = localized(album.review);
+  const listenedDate = formatAlbumDate(album.listenedOn);
+  const isFavorite = album.favorite === true;
+
+  const tracksMarkup = favoriteTracks.length
+    ? `
+      <ul class="album-track-list">
+        ${favoriteTracks.map((track) => `<li>${escapeHtml(localized(track))}</li>`).join('')}
+      </ul>
+    `
+    : `<p class="album-detail-empty">${escapeHtml(t('music.noFavoriteTracks'))}</p>`;
+
+  albumDetailContent.innerHTML = `
+    <div class="album-detail-hero">
+      <div class="album-detail-cover">
+        ${album.cover
+          ? `<img src="${escapeHtml(album.cover)}" alt="${escapeHtml(localized(album.title))} ${escapeHtml(t('music.coverAlt'))}">`
+          : '<span>♪</span>'}
+      </div>
+
+      <div class="album-detail-heading">
+        ${isFavorite ? `<span class="favorite-album-label detail-favorite">★ ${escapeHtml(t('music.favorite'))}</span>` : ''}
+        <h2>${escapeHtml(localized(album.title))}</h2>
+        <p class="album-detail-artist">${escapeHtml(localized(album.artist))}</p>
+        ${renderAlbumStars(album.rating)}
+        ${listenedDate
+          ? `<p class="album-detail-date"><span>${escapeHtml(t('music.listenedOn'))}</span> ${escapeHtml(listenedDate)}</p>`
+          : ''}
+      </div>
+    </div>
+
+    <div class="album-detail-sections">
+      <section class="album-detail-section">
+        <p class="eyebrow">${escapeHtml(t('music.favoriteTracks'))}</p>
+        ${tracksMarkup}
+      </section>
+
+      <section class="album-detail-section album-review-section">
+        <p class="eyebrow">${escapeHtml(t('music.review'))}</p>
+        <p class="album-review-text">${escapeHtml(review || t('music.noReview'))}</p>
+      </section>
+    </div>
+  `;
+
+  if (!albumDetailDialog.open) albumDetailDialog.showModal();
 }
 
 function renderGames() {
@@ -735,6 +898,14 @@ tabButtons.forEach((button) => {
   });
 });
 
+feed?.addEventListener('click', (event) => {
+  const albumCard = event.target.closest('[data-album-index]');
+  if (!albumCard) return;
+
+  const index = Number(albumCard.dataset.albumIndex);
+  if (Number.isInteger(index)) showAlbumDetails(index);
+});
+
 document.addEventListener('click', (event) => {
   const target = event.target.closest('button, a, .card-clickable');
   if (target && !target.classList.contains('tab-button') && target.id !== 'mute-toggle') {
@@ -777,6 +948,18 @@ recommendationClose?.addEventListener('click', () => {
 
 recommendationDialog?.addEventListener('click', (event) => {
   if (event.target === recommendationDialog) recommendationDialog.close();
+});
+
+albumDetailClose?.addEventListener('click', () => {
+  albumDetailDialog?.close();
+});
+
+albumDetailDialog?.addEventListener('click', (event) => {
+  if (event.target === albumDetailDialog) albumDetailDialog.close();
+});
+
+albumDetailDialog?.addEventListener('close', () => {
+  activeAlbumIndex = null;
 });
 
 recommendationForm?.addEventListener('submit', submitRecommendation);
