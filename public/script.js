@@ -228,6 +228,9 @@ const state = {
 const feed = document.querySelector('#content-feed');
 const mainPanel = document.querySelector('.main-panel');
 const tabButtons = document.querySelectorAll('.tab-button');
+const sideTabs = document.querySelector('.side-tabs');
+const mobileTabsLeft = document.querySelector('#mobile-tabs-left');
+const mobileTabsRight = document.querySelector('#mobile-tabs-right');
 const clickSound = document.querySelector('#click-sound');
 const muteToggle = document.querySelector('#mute-toggle');
 const languageToggle = document.querySelector('#language-toggle');
@@ -402,12 +405,29 @@ function setLanguage(language) {
   if (recommendationMessage) recommendationMessage.textContent = '';
 }
 
+function updateMobileTabCues() {
+  if (!sideTabs || !mobileTabsLeft || !mobileTabsRight) return;
+
+  const maxScroll = Math.max(sideTabs.scrollWidth - sideTabs.clientWidth, 0);
+  const canScroll = maxScroll > 4;
+
+  mobileTabsLeft.classList.toggle('visible', canScroll && sideTabs.scrollLeft > 4);
+  mobileTabsRight.classList.toggle('visible', canScroll && sideTabs.scrollLeft < maxScroll - 4);
+}
+
 function setActiveTab(tabName, shouldScroll = true) {
   state.activeTab = tabName;
 
   tabButtons.forEach((button) => {
     button.classList.toggle('active', button.dataset.tab === tabName);
   });
+
+  const activeButton = [...tabButtons].find((button) => button.dataset.tab === tabName);
+  if (sideTabs && activeButton && window.matchMedia('(max-width: 760px)').matches) {
+    const targetLeft = activeButton.offsetLeft - (sideTabs.clientWidth - activeButton.offsetWidth) / 2;
+    sideTabs.scrollTo({ left: Math.max(0, targetLeft), behavior: shouldScroll ? 'smooth' : 'auto' });
+    requestAnimationFrame(updateMobileTabCues);
+  }
 
   mainPanel?.classList.toggle('focused-view', tabName !== 'all');
   renderTab(tabName);
@@ -904,6 +924,9 @@ tabButtons.forEach((button) => {
   });
 });
 
+sideTabs?.addEventListener('scroll', updateMobileTabCues, { passive: true });
+window.addEventListener('resize', updateMobileTabCues);
+
 feed?.addEventListener('click', (event) => {
   const albumCard = event.target.closest('[data-album-index]');
   if (!albumCard) return;
@@ -977,6 +1000,7 @@ updateThemeButton();
 updateMuteButton();
 updateStats();
 setActiveTab('all', false);
+updateMobileTabCues();
 updateClock();
 fetchNowPlaying();
 
