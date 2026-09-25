@@ -1445,6 +1445,8 @@ html[data-theme='dark'] textarea::placeholder {
 
 .album-meta {
   min-height: 132px;
+  display: flex;
+  flex-direction: column;
   margin-top: 10px;
   padding: 12px 13px;
   border: 1px solid var(--line);
@@ -1495,7 +1497,8 @@ html[data-theme='dark'] textarea::placeholder {
 }
 
 .album-card-footer {
-  margin-top: 11px;
+  margin-top: auto;
+  padding-top: 11px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
