@@ -65,6 +65,7 @@ const translations = {
     'music.intro': 'albums i listened to, what i thought about them, and the tracks i kept coming back to.',
     'music.empty': 'no albums here yet.\n\nonce i listen to something worth keeping, it will show up here.',
     'music.releaseDate': 'released',
+    'music.listenedOn': 'listened',
     'music.favorite': 'favorite album',
     'music.favoriteTracks': 'favorite tracks',
     'music.review': 'review',
@@ -170,6 +171,7 @@ const translations = {
     'music.intro': 'álbuns que eu ouvi, o que achei deles e as faixas que mais ficaram comigo.',
     'music.empty': 'nenhum álbum por aqui ainda.\n\nquando eu ouvir algo que vale guardar, vai aparecer aqui.',
     'music.releaseDate': 'lançado em',
+    'music.listenedOn': 'ouvido em',
     'music.favorite': 'álbum favorito',
     'music.favoriteTracks': 'faixas favoritas',
     'music.review': 'review',
@@ -524,6 +526,7 @@ function renderMusic() {
   const cards = albums.map((album, index) => {
     const isFavorite = album.favorite === true;
     const releaseDate = formatAlbumDate(album.releaseDate);
+    const releaseYear = album.releaseDate ? String(album.releaseDate).slice(0, 4) : '';
 
     return `
       <button
@@ -541,10 +544,9 @@ function renderMusic() {
         <div class="album-meta">
           ${isFavorite ? `<span class="favorite-album-label">★ ${escapeHtml(t('music.favorite'))}</span>` : ''}
           <h3>${escapeHtml(localized(album.title))}</h3>
-          <p class="album-artist">${escapeHtml(localized(album.artist))}</p>
+          <p class="album-artist">${escapeHtml(localized(album.artist))}${releaseYear ? ` - ${escapeHtml(releaseYear)}` : ''}</p>
           <div class="album-card-footer">
             ${renderAlbumStars(album.rating)}
-            ${releaseDate ? `<span class="album-listened-date">${escapeHtml(releaseDate)}</span>` : ''}
           </div>
         </div>
       </button>
@@ -572,6 +574,7 @@ function showAlbumDetails(index) {
     : [];
   const review = localized(album.review);
   const releaseDate = formatAlbumDate(album.releaseDate);
+  const listenedDate = formatAlbumDate(album.listenedOn);
   const isFavorite = album.favorite === true;
 
   const tracksMarkup = favoriteTracks.length
@@ -597,6 +600,9 @@ function showAlbumDetails(index) {
         ${renderAlbumStars(album.rating)}
         ${releaseDate
           ? `<p class="album-detail-date"><span>${escapeHtml(t('music.releaseDate'))}</span> ${escapeHtml(releaseDate)}</p>`
+          : ''}
+        ${listenedDate
+          ? `<p class="album-detail-date"><span>${escapeHtml(t('music.listenedOn'))}</span> ${escapeHtml(listenedDate)}</p>`
           : ''}
       </div>
     </div>
