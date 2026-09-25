@@ -327,7 +327,7 @@ a {
 }
 
 .display-control-row {
-  min-height: 66px;
+  min-height: 56px;
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
   align-items: center;
@@ -1168,4 +1168,209 @@ textarea:focus {
     grid-template-columns: 1fr;
     gap: 1px;
   }
+}
+
+
+/* Dark theme */
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0d1520;
+  --surface: rgba(22, 31, 43, 0.94);
+  --surface-soft: #182332;
+  --surface-blue: #172c3e;
+  --line: #2b3949;
+  --line-blue: #2d4b62;
+  --blue: #6fc5fb;
+  --blue-strong: #64bcf3;
+  --blue-soft: #17334a;
+  --text: #e8eef6;
+  --muted: #98a6b8;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at 88% 6%, rgba(72, 164, 226, 0.12), transparent 28rem),
+    radial-gradient(circle at 9% 94%, rgba(76, 170, 230, 0.09), transparent 30rem),
+    linear-gradient(180deg, #101821 0%, var(--bg) 100%);
+}
+
+html[data-theme='dark'] .background-bubbles {
+  background:
+    linear-gradient(90deg, transparent 0 8%, rgba(112, 197, 251, 0.03) 8% 8.08%, transparent 8.08% 100%),
+    linear-gradient(0deg, transparent 0 13%, rgba(112, 197, 251, 0.03) 13% 13.08%, transparent 13.08% 100%);
+}
+
+html[data-theme='dark'] .app-shell {
+  border-color: rgba(54, 69, 86, 0.95);
+  background: rgba(15, 23, 33, 0.82);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.26);
+}
+
+html[data-theme='dark'] .navigation-shell {
+  background: rgba(17, 25, 36, 0.88);
+}
+
+html[data-theme='dark'] .brand,
+html[data-theme='dark'] .sidebar-status,
+html[data-theme='dark'] .profile-details,
+html[data-theme='dark'] .tiny-note,
+html[data-theme='dark'] .track-artist,
+html[data-theme='dark'] .track-progress-times,
+html[data-theme='dark'] .section-intro,
+html[data-theme='dark'] .game-meta p,
+html[data-theme='dark'] .thing-mood-copy > p:last-child,
+html[data-theme='dark'] .links-intro,
+html[data-theme='dark'] .link-copy span,
+html[data-theme='dark'] .link-arrow {
+  color: #96a4b6;
+}
+
+html[data-theme='dark'] .tab-button {
+  color: #a5b1c1;
+}
+
+html[data-theme='dark'] .tab-button:hover {
+  color: #d9e3ee;
+  background: #182432;
+}
+
+html[data-theme='dark'] .tab-button.active {
+  color: var(--text);
+  background: linear-gradient(90deg, #173149, #182838);
+}
+
+html[data-theme='dark'] .nav-icon {
+  color: #8291a5;
+}
+
+html[data-theme='dark'] .page-heading h1,
+html[data-theme='dark'] .profile-copy h2,
+html[data-theme='dark'] .widget-header h3,
+html[data-theme='dark'] .track-name,
+html[data-theme='dark'] .compact-title .eyebrow,
+html[data-theme='dark'] .content-card h2,
+html[data-theme='dark'] .game-meta h3,
+html[data-theme='dark'] .thing-mood-copy h3,
+html[data-theme='dark'] .link-copy strong {
+  color: #e7edf5;
+}
+
+html[data-theme='dark'] .signature,
+html[data-theme='dark'] .big-copy,
+html[data-theme='dark'] .soft-list strong {
+  color: #b4c0cf;
+}
+
+html[data-theme='dark'] .profile-image-wrap {
+  background: radial-gradient(circle, #253344 0%, #1d2b3a 68%, #18344a 100%);
+}
+
+html[data-theme='dark'] .wii-button {
+  border-color: #34495d;
+  background: linear-gradient(180deg, #223447 0%, #192b3d 100%);
+  color: #9bd5fb;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme='dark'] .wii-button:hover {
+  border-color: #4f7fa0;
+  background: linear-gradient(180deg, #273c51 0%, #1b3043 100%);
+}
+
+html[data-theme='dark'] .channel-icon {
+  background: #18364d;
+}
+
+html[data-theme='dark'] .now-playing-content {
+  background: linear-gradient(135deg, #1a2634 0%, #151f2b 100%);
+}
+
+html[data-theme='dark'] .album-cover,
+html[data-theme='dark'] .game-cover,
+html[data-theme='dark'] .cover-frame,
+html[data-theme='dark'] .thing-image {
+  border-color: #314052;
+  background: #182331;
+}
+
+html[data-theme='dark'] .placeholder-cover {
+  color: #8090a4;
+}
+
+html[data-theme='dark'] .track-progress-rail {
+  background: #334254;
+}
+
+html[data-theme='dark'] .recommendation-open {
+  color: #92d2fb;
+  background: linear-gradient(180deg, #19364d 0%, #153047 100%);
+}
+
+html[data-theme='dark'] .soft-list li {
+  background: #192432;
+}
+
+html[data-theme='dark'] .soft-list span {
+  color: #98a7b9;
+}
+
+html[data-theme='dark'] .project-card,
+html[data-theme='dark'] .game-card,
+html[data-theme='dark'] .thing-card,
+html[data-theme='dark'] .link-card,
+html[data-theme='dark'] .thing-mood-card {
+  background: #17212e;
+}
+
+html[data-theme='dark'] .project-card:hover,
+html[data-theme='dark'] .game-card:hover,
+html[data-theme='dark'] .thing-card:hover,
+html[data-theme='dark'] .link-card:hover,
+html[data-theme='dark'] .thing-mood-card:hover {
+  border-color: #41647f;
+}
+
+html[data-theme='dark'] .soft-tag,
+html[data-theme='dark'] .status-pill {
+  border-color: #31506a;
+  background: #183044;
+  color: #a5c8df;
+}
+
+html[data-theme='dark'] .game-cover {
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme='dark'] .thing-mood-image {
+  background: linear-gradient(180deg, #f7fbff 0%, #edf4f9 100%);
+}
+
+html[data-theme='dark'] .recommendation-dialog::backdrop {
+  background: rgba(3, 8, 14, 0.6);
+}
+
+html[data-theme='dark'] .dialog-panel {
+  background: #17212e;
+}
+
+html[data-theme='dark'] .dialog-close {
+  background: #223040;
+  color: #b5c1d0;
+}
+
+html[data-theme='dark'] .recommendation-form label {
+  color: #a9b6c6;
+}
+
+html[data-theme='dark'] input,
+html[data-theme='dark'] textarea {
+  border-color: #344354;
+  background: #121b26;
+  color: var(--text);
+}
+
+html[data-theme='dark'] input::placeholder,
+html[data-theme='dark'] textarea::placeholder {
+  color: #77869a;
 }
