@@ -64,7 +64,7 @@ const translations = {
     'music.title': 'music',
     'music.intro': 'albums i listened to, what i thought about them, and the tracks i kept coming back to.',
     'music.empty': 'no albums here yet.\n\nonce i listen to something worth keeping, it will show up here.',
-    'music.listenedOn': 'listened',
+    'music.releaseDate': 'released',
     'music.favorite': 'favorite album',
     'music.favoriteTracks': 'favorite tracks',
     'music.review': 'review',
@@ -169,7 +169,7 @@ const translations = {
     'music.title': 'música',
     'music.intro': 'álbuns que eu ouvi, o que achei deles e as faixas que mais ficaram comigo.',
     'music.empty': 'nenhum álbum por aqui ainda.\n\nquando eu ouvir algo que vale guardar, vai aparecer aqui.',
-    'music.listenedOn': 'ouvido em',
+    'music.releaseDate': 'lançado em',
     'music.favorite': 'álbum favorito',
     'music.favoriteTracks': 'faixas favoritas',
     'music.review': 'review',
@@ -523,7 +523,7 @@ function renderMusic() {
 
   const cards = albums.map((album, index) => {
     const isFavorite = album.favorite === true;
-    const listenedDate = formatAlbumDate(album.listenedOn);
+    const releaseDate = formatAlbumDate(album.releaseDate);
 
     return `
       <button
@@ -544,7 +544,7 @@ function renderMusic() {
           <p class="album-artist">${escapeHtml(localized(album.artist))}</p>
           <div class="album-card-footer">
             ${renderAlbumStars(album.rating)}
-            ${listenedDate ? `<span class="album-listened-date">${escapeHtml(listenedDate)}</span>` : ''}
+            ${releaseDate ? `<span class="album-listened-date">${escapeHtml(releaseDate)}</span>` : ''}
           </div>
         </div>
       </button>
@@ -571,7 +571,7 @@ function showAlbumDetails(index) {
     ? album.favoriteTracks.filter(Boolean)
     : [];
   const review = localized(album.review);
-  const listenedDate = formatAlbumDate(album.listenedOn);
+  const releaseDate = formatAlbumDate(album.releaseDate);
   const isFavorite = album.favorite === true;
 
   const tracksMarkup = favoriteTracks.length
@@ -595,8 +595,8 @@ function showAlbumDetails(index) {
         <h2>${escapeHtml(localized(album.title))}</h2>
         <p class="album-detail-artist">${escapeHtml(localized(album.artist))}</p>
         ${renderAlbumStars(album.rating)}
-        ${listenedDate
-          ? `<p class="album-detail-date"><span>${escapeHtml(t('music.listenedOn'))}</span> ${escapeHtml(listenedDate)}</p>`
+        ${releaseDate
+          ? `<p class="album-detail-date"><span>${escapeHtml(t('music.releaseDate'))}</span> ${escapeHtml(releaseDate)}</p>`
           : ''}
       </div>
     </div>
