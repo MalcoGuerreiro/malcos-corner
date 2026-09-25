@@ -1374,3 +1374,19 @@ html[data-theme='dark'] input::placeholder,
 html[data-theme='dark'] textarea::placeholder {
   color: #77869a;
 }
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
