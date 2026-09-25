@@ -6,7 +6,7 @@ window.MALCO_ALBUMS = [
     releaseDate: '1997-05-21',
     listenedOn: '2026-09-25',
     rating: 5,
-    favorite: false,
+    favorite: true,
     favoriteTracks: [
       'Paranoid Android',
       'Let Down',
