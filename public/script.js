@@ -199,11 +199,14 @@ const translations = {
 
 const savedLanguage = localStorage.getItem('malco-language');
 const savedTheme = localStorage.getItem('malco-theme');
+const systemThemeQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
 const state = {
   activeTab: 'all',
   muted: localStorage.getItem('malco-muted') === 'true',
   language: savedLanguage === 'pt' ? 'pt' : 'en',
-  theme: savedTheme === 'dark' ? 'dark' : 'light'
+  theme: savedTheme === 'dark' || savedTheme === 'light'
+    ? savedTheme
+    : (systemThemeQuery?.matches ? 'dark' : 'light')
 };
 
 const feed = document.querySelector('#content-feed');
@@ -346,7 +349,9 @@ function applyTheme() {
 
 function updateThemeButton() {
   if (!themeToggle) return;
-  themeToggle.textContent = state.theme === 'dark' ? t('display.themeDark') : t('display.themeLight');
+  const icon = state.theme === 'dark' ? '☾' : '☀';
+  const label = state.theme === 'dark' ? t('display.themeDark') : t('display.themeLight');
+  themeToggle.textContent = `${icon} ${label}`;
   themeToggle.setAttribute(
     'aria-label',
     state.language === 'pt'
@@ -744,6 +749,13 @@ languageToggle?.addEventListener('click', () => {
 themeToggle?.addEventListener('click', () => {
   state.theme = state.theme === 'dark' ? 'light' : 'dark';
   localStorage.setItem('malco-theme', state.theme);
+  applyTheme();
+  updateThemeButton();
+});
+
+systemThemeQuery?.addEventListener?.('change', (event) => {
+  if (localStorage.getItem('malco-theme')) return;
+  state.theme = event.matches ? 'dark' : 'light';
   applyTheme();
   updateThemeButton();
 });
