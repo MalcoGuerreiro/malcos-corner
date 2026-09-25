@@ -37,9 +37,11 @@ const translations = {
     'stats.things': 'things',
     'display.label': 'display',
     'display.language': 'language: EN',
+    'display.themeLight': 'theme: light',
+    'display.themeDark': 'theme: dark',
     'display.soundOn': 'sound: on',
     'display.soundOff': 'sound: off',
-    'display.note': 'language switches the whole site; click sounds can be muted here.',
+    'display.note': 'language, theme, and click sounds live here.',
     'tabs.all': 'all',
     'tabs.about': 'about',
     'tabs.projects': 'projects',
@@ -133,9 +135,11 @@ const translations = {
     'stats.things': 'coisas',
     'display.label': 'exibição',
     'display.language': 'idioma: PT-BR',
+    'display.themeLight': 'tema: claro',
+    'display.themeDark': 'tema: escuro',
     'display.soundOn': 'som: ligado',
     'display.soundOff': 'som: desligado',
-    'display.note': 'o idioma altera o site inteiro; os sons de clique podem ser silenciados aqui.',
+    'display.note': 'idioma, tema e sons de clique ficam aqui.',
     'tabs.all': 'tudo',
     'tabs.about': 'sobre',
     'tabs.projects': 'projetos',
@@ -194,10 +198,12 @@ const translations = {
 };
 
 const savedLanguage = localStorage.getItem('malco-language');
+const savedTheme = localStorage.getItem('malco-theme');
 const state = {
   activeTab: 'all',
   muted: localStorage.getItem('malco-muted') === 'true',
-  language: savedLanguage === 'pt' ? 'pt' : 'en'
+  language: savedLanguage === 'pt' ? 'pt' : 'en',
+  theme: savedTheme === 'dark' ? 'dark' : 'light'
 };
 
 const feed = document.querySelector('#content-feed');
@@ -206,6 +212,7 @@ const tabButtons = document.querySelectorAll('.tab-button');
 const clickSound = document.querySelector('#click-sound');
 const muteToggle = document.querySelector('#mute-toggle');
 const languageToggle = document.querySelector('#language-toggle');
+const themeToggle = document.querySelector('#theme-toggle');
 const recommendationForm = document.querySelector('#recommendation-form');
 const recommendationMessage = document.querySelector('#recommendation-message');
 const recommendationOpen = document.querySelector('#recommendation-open');
@@ -333,12 +340,28 @@ function updateMuteButton() {
   muteToggle.textContent = state.muted ? t('display.soundOff') : t('display.soundOn');
 }
 
+function applyTheme() {
+  document.documentElement.dataset.theme = state.theme;
+}
+
+function updateThemeButton() {
+  if (!themeToggle) return;
+  themeToggle.textContent = state.theme === 'dark' ? t('display.themeDark') : t('display.themeLight');
+  themeToggle.setAttribute(
+    'aria-label',
+    state.language === 'pt'
+      ? (state.theme === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro')
+      : (state.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme')
+  );
+}
+
 function setLanguage(language) {
   state.language = language === 'pt' ? 'pt' : 'en';
   localStorage.setItem('malco-language', state.language);
 
   applyStaticTranslations();
   updateLanguageButton();
+  updateThemeButton();
   updateMuteButton();
   updateStats();
   setActiveTab(state.activeTab, false);
@@ -718,6 +741,13 @@ languageToggle?.addEventListener('click', () => {
   setLanguage(state.language === 'en' ? 'pt' : 'en');
 });
 
+themeToggle?.addEventListener('click', () => {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('malco-theme', state.theme);
+  applyTheme();
+  updateThemeButton();
+});
+
 muteToggle?.addEventListener('click', () => {
   state.muted = !state.muted;
   localStorage.setItem('malco-muted', String(state.muted));
@@ -739,8 +769,10 @@ recommendationDialog?.addEventListener('click', (event) => {
 
 recommendationForm?.addEventListener('submit', submitRecommendation);
 
+applyTheme();
 applyStaticTranslations();
 updateLanguageButton();
+updateThemeButton();
 updateMuteButton();
 updateStats();
 setActiveTab('all', false);
