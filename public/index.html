@@ -22,6 +22,7 @@
   </script>
   <link rel="stylesheet" href="/style.css">
   <script src="/data/projects.js" defer></script>
+  <script src="/data/music.js" defer></script>
   <script src="/data/games.js" defer></script>
   <script src="/data/things.js" defer></script>
   <script src="/data/links.js" defer></script>
@@ -49,6 +50,10 @@
         <button class="tab-button" data-tab="projects" type="button">
           <span class="nav-icon" aria-hidden="true">□</span>
           <span data-i18n="tabs.projects">projects</span>
+        </button>
+        <button class="tab-button" data-tab="music" type="button">
+          <span class="nav-icon" aria-hidden="true">♪</span>
+          <span data-i18n="tabs.music">music</span>
         </button>
         <button class="tab-button" data-tab="games" type="button">
           <span class="nav-icon nav-game" aria-hidden="true">⌘</span>
@@ -202,6 +207,13 @@
         <button type="submit" class="wii-button" data-i18n="recommendation.send">send recommendation</button>
         <p id="recommendation-message" class="form-message" aria-live="polite"></p>
       </form>
+    </div>
+  </dialog>
+
+  <dialog id="album-detail-dialog" class="album-detail-dialog">
+    <div class="album-detail-panel card">
+      <button id="album-detail-close" class="dialog-close album-detail-close" type="button" aria-label="Close">×</button>
+      <div id="album-detail-content"></div>
     </div>
   </dialog>
 
