@@ -17,6 +17,26 @@ window.MALCO_ALBUMS = [
       pt: 'Eu acho fascinante como esse álbum consegue me dar a sensação de estar perdido em um labirinto em constante mudança, mas sem me passar uma sensação de desespero. É um labirinto muito bonito — às vezes melancólico, às vezes sufocante, porém sempre muito bonito.'
     }
   }
+,
+  {
+    title: 'Koi No Yokan',
+    artist: 'Deftones',
+    cover: './assets/images/music/koinoyokan.png',
+    releaseDate: '2012-11-12',
+    listenedOn: '2026-09-25',
+    rating: 5,
+    favorite: false,
+    favoriteTracks: [
+      'Leathers',
+      'Entombed',
+      'Tempest',
+      'What Happened to You?'
+    ],
+    review: {
+      en: "The first Deftones album I listened to in full, and what a vibe. It’s impressive how this album manages to be aggressive and touching at the same time. I find the almost magical atmosphere it creates really interesting, with abstract lyrics and metaphors scattered throughout the songs.",
+      pt: 'Primeiro álbum do Deftones que escutei por completo, e que vibe. É impressionante como esse álbum consegue ser agressivo e tocante ao mesmo tempo. Acho muito interessante a atmosfera quase mágica que ele cria, com letras abstratas e metáforas espalhadas pelas músicas.'
+    }
+  }
 
   /*
   Add albums here. Spotify album covers are square, so save them as square images
